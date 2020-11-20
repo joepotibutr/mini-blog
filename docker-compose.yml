@@ -1,0 +1,21 @@
+version: '3'
+services:
+  nodejs-server:
+    build:
+      context: ./api
+    ports:
+      - "3080:3080"
+    container_name: sertis-api
+    volumes:
+       - ./api:/users/joe/desktop/sertis/api
+       - /users/joe/desktop/sertis/api/node_modules
+  react-ui:
+    build:
+      context: ./client
+    ports:
+      - "3000:3000"
+    container_name: sertis-react
+    stdin_open: true
+    volumes:
+       - ./client:/users/joe/desktop/sertis/client
+       - /users/joe/desktop/sertis/client/node_modules
