@@ -4,7 +4,7 @@ services:
     build:
       context: ./api
     ports:
-      - "3080:3080"
+      - "8080:8080"
     container_name: sertis-api
     volumes:
        - ./api:/users/joe/desktop/sertis/api
