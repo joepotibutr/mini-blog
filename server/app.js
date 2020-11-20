@@ -6,6 +6,8 @@ import mongoose from 'mongoose'
 
 import indexRoute from './routes/index';
 import usersRoute from './routes/users';
+import authRoute from './routes/auth'
+import blogRoute from './routes/blog'
 
 const app = express()
 
@@ -30,7 +32,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 app.use('/', indexRoute);
-
 app.use('/users', usersRoute);
+app.use('/auth', authRoute)
+app.use('/blog', blogRoute)
 
 module.exports = app;
