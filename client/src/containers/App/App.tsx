@@ -1,11 +1,11 @@
 import React from 'react';
 import ArticleCard , { Card } from '../../components/ArticleCard'
 import { AppWrapper } from './styled'
-import axios from 'axios'
 import { Modal } from '../../components/Modal'
 import BlogForm from '../../components/BlogForm'
 import Account from '../Account'
 import api from '../../api'
+import { formDefaultValue } from '../../constant/constant'
 
 enum BLOG_CARD_ACTIONS {
   CREATE = 'Write a new post',
@@ -18,12 +18,7 @@ function App() {
   const [isAuthenticated, setAuthenticate] = React.useState<boolean>(true)
   const [author, setAuthor] = React.useState<null | string>(null)
   const [modalBlog, openBlogModal] = React.useState<BLOG_CARD_ACTIONS | null>(null)
-  const [blogDefaultValue, setBlogDefaultValue] = React.useState({
-        title: '',
-        status: '',
-        content : '',
-        category: ''
-  })
+  const [blogDefaultValue, setBlogDefaultValue] = React.useState(formDefaultValue)
 
   React.useEffect(() => {
 
@@ -33,83 +28,109 @@ function App() {
       setAuthor(localStorage.getItem('author'))
     }
 
-    const fetchArticles = async () => {
+    const fetchBlogs = async () => {
       try {
-        const { data } = await axios.get('/blog')
+        const data = await api.blog.getBlogs()
         setBlogPosts(data || [])
-      } catch (err) {
+      } catch (error) {
+        alert(error.response.data.errors.global)
       }
     }
-    fetchArticles()
+    fetchBlogs()
 
 
-  }, [blogs.length])
+  }, [])
 
   async function login(data: { author: string, password: string }) {
     try {
-      const { user } = (await axios.post('/auth',{ credentials : { ...data }})).data
+      const user  =  await api.account.login(data)
+
       localStorage.setItem('token',user.token)
       localStorage.setItem('author',user.author)
 
       alert('Login Successfully !')
       setAuthenticate(true)
-    } catch {
-      alert('Err !!')
+    } catch(error) {
+      alert(error.response.data.errors.global)
     }
   }
 
   async function createAuthor(data: { author: string, password: string }) {
     try {
-      await axios.post('/user',{ ...data })
+      console.log(data)
+      await api.account.create(data)
       alert('Create author successfully !!')
-    } catch {
-      alert('Err !!')
+    } catch(error) {
+      alert(error.response.data.errors.author)
     }
   }
 
   async function createBlog(data: { title: string, content: string, category: string, status:string }) {
     const author = localStorage.getItem('author')
     try {
-      const { blog } = (await axios.post('/blog',{ ...data, author })).data
+      const blog = author && await api.blog.createBlog(data, author)
       setBlogPosts(prev => ([...prev, blog]))
       alert('Blog post successfully !!')
       onOpenBlogModal(null)
-    } catch {
-      alert('Err !!')
+    } catch(error) {
+      alert(error.response.data.errors.blog)
     }
   }
 
-   function editBlog(id: string) {
-    api.blog.editBlog(id, {})
+   async function editBlog(data: { title: string, content: string, category: string, status:string }) {
+     try {
+      blogDefaultValue._id && await api.blog.editBlog(blogDefaultValue._id, data)
+      onOpenBlogModal(null)
+      const idx = blogs.findIndex(blog => blog._id === blogDefaultValue._id)
+
+      setBlogPosts(prev => ([
+        ...prev.slice(0, idx),
+          {
+            ...prev[idx], ...data
+          },
+        ...prev.slice(idx + 1)
+      ]))
+
+     } catch(error) {
+      alert(error.response.data.errors.blog)
+    }
+      
   }
 
-   function deleteBlog(id : string) {
-    console.log(id)
-    api.blog.deleteBlog(id)
+   async function deleteBlog(id : string) {
+     try {
+      await api.blog.deleteBlog(id)
+      setBlogPosts(prev => (prev.filter(blog => blog._id !== id)))
+     } catch(error) {
+      alert(error.response.data.errors)
+     }
   }
 
   function onOpenBlogModal(action: BLOG_CARD_ACTIONS | null, id?: string) {
     if (action === BLOG_CARD_ACTIONS.EDIT) {
       const currentBlog = blogs.find(blog => blog._id === id)
       currentBlog && setBlogDefaultValue(currentBlog)
+    } else {
+      setBlogDefaultValue(formDefaultValue)
     }
     openBlogModal(action)
   }
 
+  const submit = modalBlog === BLOG_CARD_ACTIONS.CREATE ? createBlog : editBlog
 
   return (
     <AppWrapper>
       <div className="wrapper">
-        <div>
-          <div>
+        <div className="header">
+          <div className="author-name">
             <h1>{author}</h1>
           </div>
-          <div><button onClick={() => onOpenBlogModal(BLOG_CARD_ACTIONS.CREATE)}>WRITE A POST</button></div>
+          <div className="button-wrapper"><button className="create-blog-btn" onClick={() => onOpenBlogModal(BLOG_CARD_ACTIONS.CREATE)}>WRITE A POST</button></div>
           <Modal 
             headerText={modalBlog || ''} 
             isShown={!!modalBlog} 
             hide={() => onOpenBlogModal(null)} 
-            modalContent={< BlogForm defaultValues={blogDefaultValue} onSubmit={createBlog}/>} 
+            modalContent={< BlogForm defaultValues={blogDefaultValue} onSubmit={submit}/>} 
           />
         </div>
         {blogs.length ? 
@@ -120,7 +141,6 @@ function App() {
                 actions={card.author === author} 
                 key={card._id} card={card}
                 onDeleteBlog={(id) => deleteBlog(id)}
-                onEditBlog={(id) => editBlog(id)}
                 onOpenBlogModal={(id) => onOpenBlogModal(BLOG_CARD_ACTIONS.EDIT, id)}
               />
             ))}
