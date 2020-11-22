@@ -23,6 +23,7 @@ export const StyledModal = styled.div`
   position: relative;
   margin: auto;
   border-radius: 8px;
+  padding: 20px;
 `;
 export const Header = styled.div`
   border-radius: 8px 8px 0 0;
@@ -46,7 +47,6 @@ export const CloseButton = styled.button`
   }
 `;
 export const Content = styled.div`
-  padding: 10px;
   max-height: 30rem;
   overflow-x: hidden;
   overflow-y: auto;
