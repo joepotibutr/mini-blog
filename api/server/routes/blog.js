@@ -42,7 +42,9 @@ router.put("/update",(req,res) => {
 
 router.delete('/del',(req,res) => {
     console.log(req.body)
-    Blog.remove({id : req.body.id})
+    Blog.remove({ _id : req.body.id}, {
+        justOne: true
+    })
     .then(result => res.json({result}))
     .catch(err => res.status(400).json({ errors: parseErrors(err.errors) }))
 })
