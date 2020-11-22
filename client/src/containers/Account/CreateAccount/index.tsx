@@ -1,5 +1,6 @@
 import React, { ReactElement } from 'react'
 import api from '../../../api'
+import { AccountFormStyled } from '../styled'
 
 interface Props {
     setCreatingAccount:  (val: boolean) => void
@@ -20,17 +21,19 @@ export default function CreateAccount({ setCreatingAccount }: Props): ReactEleme
     const [password, setPassword] = React.useState('')
 
     return (
-        <div>
+        <AccountFormStyled>
         <button onClick={() => setCreatingAccount(false)}>Back</button>
         <form onSubmit={(e) => {
             e.preventDefault() 
             createAuthor({ author, password })
             setCreatingAccount(false)
         }}>
-            <input id="author" onChange={(e) => setAuthor(e.currentTarget.value)} value={author} />
-            <input id="password" onChange={(e) => setPassword(e.currentTarget.value)} value={password} />
+          <h4>Author</h4>
+            <input type="text" id="author" onChange={(e) => setAuthor(e.currentTarget.value)} value={author} />
+            <h4>Password</h4>
+            <input type="password" id="password" onChange={(e) => setPassword(e.currentTarget.value)} value={password} />
             <button>Create</button>
         </form>
-        </div>
+        </AccountFormStyled>
     )
 }

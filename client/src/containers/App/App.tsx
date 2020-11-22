@@ -98,7 +98,7 @@ function App() {
   return (
     <AppWrapper>
       <div className="wrapper">
-        <div className="header">
+        {author && <div className="header">
           <div className="author-name">
             <h1>{author}</h1>
             <span onClick={() => {
@@ -106,14 +106,20 @@ function App() {
               window.location.reload()
             }} className="logout-button">Logout</span>
           </div>
-          <div className="button-wrapper"><button className="create-blog-btn" onClick={() => onOpenBlogModal(ENUM_BLOG_CARD_ACTIONS.CREATE)}>WRITE A POST</button></div>
+          <div className="button-wrapper">
+              <button className="create-blog-btn" 
+                onClick={() => onOpenBlogModal(ENUM_BLOG_CARD_ACTIONS.CREATE)}
+              >
+                <span>WRITE A POST</span>
+              </button>
+          </div>
           <Modal 
             headerText={modalBlog || ''} 
             isShown={!!modalBlog} 
             hide={() => onOpenBlogModal(null)} 
             modalContent={< BlogForm defaultValues={blogDefaultValue} onSubmit={submit}/>} 
           />
-        </div>
+        </div>}
         {blogs.length ? 
         (<ul className="blog-list">
           <React.Fragment>

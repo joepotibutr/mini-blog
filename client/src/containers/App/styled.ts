@@ -22,11 +22,13 @@ export const AppWrapper = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 20px;
 
             .author-name {
                 color: #ffffff;
                 display:flex;
                 align-items:center;
+
 
                 .logout-button {
                     cursor: pointer;
