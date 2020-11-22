@@ -15,10 +15,10 @@ export default {
             await axios.post('/blog',{ ...data })
         },
         editBlog : async (id: string , data: any) => {
-            await axios.post('/blog/edit',{ id, data })
+            await axios.put('/blog/edit',{ id, data })
         },
         deleteBlog: async (id: string) => {
-            await axios.post('/blog/del', id)
+            await axios.delete('/blog/del', { data: { id }})
         }
     }
 }
