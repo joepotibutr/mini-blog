@@ -8,7 +8,7 @@ router.get("/",(req,res) => {
   .then(user => {
       res.json(user)
   })
-  .catch(err => res.status(400).json({ errors : err.errors }))
+  .catch(err => res.status(400).json({ errors : parseErrors(err.errors) }))
 })
 
 router.post("/", (req, res) => {
@@ -20,7 +20,7 @@ router.post("/", (req, res) => {
     .then(userRecord => {
       res.json({ user: userRecord.toAuthJSON() })
     })
-    .catch(err => res.status(400).json({ errors: err.errors }))
+    .catch(err => res.status(400).json({ errors: parseErrors(err.errors) }))
 })
 
 router.delete('/del',(req,res) => {
@@ -28,7 +28,7 @@ router.delete('/del',(req,res) => {
 
   User.remove({username : req.body.username})
   .then(result => res.json({result}))
-  .catch(err => res.status(400).json({ errors: err.errors }))
+  .catch(err => res.status(400).json({ errors: parseErrors(err.errors) }))
 })
 
 export default router

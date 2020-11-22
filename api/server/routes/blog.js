@@ -8,7 +8,7 @@ router.get("/",(req,res) => {
     .then(products => {
         res.json(products)
     })
-    .catch(err => res.status(400).json({ errors : err.errors }))
+    .catch(err => res.status(400).json({ errors : parseErrors(err.errors) }))
 })
 
 router.post('/',(req,res) => {
