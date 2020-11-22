@@ -1,7 +1,7 @@
 # Mini Blog
 
 
-The mini blog website using credentials to for authorize author.
+The mini blog website using credentials to authorize the author.
 
   - Full `/blog` CRUD (`get`, `post` ,`put`, `delete`) methods
   - Protected blog actions from unauthorized user
