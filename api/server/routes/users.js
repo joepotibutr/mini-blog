@@ -1,5 +1,6 @@
 import express from "express"
 import User from "../models/user"
+import parseErrors from '../utils/parseErrors'
 
 const router = express.Router()
 

@@ -1,5 +1,6 @@
 import express from "express"
 import Blog from '../models/blog'
+import parseErrors from '../utils/parseErrors'
 
 const router = express.Router()
 
