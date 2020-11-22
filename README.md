@@ -37,6 +37,7 @@ volumes:
 ```
 
 Change your path in `Dockerfile` in current directory as well as both `client` and `api` folder 
+
 `/Dockerfile`
 
 ```bash
@@ -54,7 +55,7 @@ WORKDIR /{your path here}/client
 WORKDIR /{your path here}/api
 ```
 
-Run this command below to build & compose docker container
+Run this command below to build & compose docker container.
 
 ```sh
 $ docker-compose up
