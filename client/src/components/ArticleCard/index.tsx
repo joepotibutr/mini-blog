@@ -15,26 +15,25 @@ export interface Card {
 interface Props {
     card: Card
     actions: boolean
-    onEditBlog: (id: string) => void
     onDeleteBlog: (id: string) => void
     onOpenBlogModal: (id: string) => void
 }
 
-export default ({ card, actions, onEditBlog, onDeleteBlog, onOpenBlogModal }: Props) => {
+export default ({ card, actions, onDeleteBlog, onOpenBlogModal }: Props) => {
     const updateTime = new Date(card.updatedAt).toDateString()
     return (
         <CardWrapper>
-            <div>
-            <span className="category"><b>{card.category}</b></span>
-            {actions && 
-            <span>
-                <span onClick={() => onOpenBlogModal(card._id)}>
-                EDIT
-                </span>
-                <span onClick={() => onDeleteBlog(card._id)}>
-                X
-                </span>
-            </span>}
+            <div className="card-actions">
+                <span className="category"><b>{card.category}</b></span>
+                {actions && 
+                <span className="actions-bar">
+                    <span className="edit-action" onClick={() => onOpenBlogModal(card._id)}>
+                        EDIT
+                    </span>
+                    <span className="delete-action" onClick={() => onDeleteBlog(card._id)}>
+                        x
+                    </span>
+                </span>}
             </div>
             <div className="title-body">
                 <p className="title">{card.title}</p>

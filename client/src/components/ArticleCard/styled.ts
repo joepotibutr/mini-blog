@@ -11,13 +11,36 @@ export const CardWrapper = styled.li`
     flex-direction: column;
     justify-content: space-between;
 
+    .card-actions {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
   
+        .category {
+            font-size: 13px;
+            text-transform: uppercase;
+            color: #B9B0D1;
+        }
 
-    .category {
-        font-size: 13px;
-        text-transform: uppercase;
-        color: #B9B0D1;
+        .actions-bar {
+            margin-left: 10px;
+
+        .delete-action {
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .edit-action {
+            cursor: pointer;
+            color: rgb(0,0,0,0.5);
+            font-size: 12px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
     }
+    }
+    
+
 
     .author-body {
         display: flex;
