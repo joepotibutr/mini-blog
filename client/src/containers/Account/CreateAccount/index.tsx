@@ -22,7 +22,11 @@ export default function CreateAccount({ setCreatingAccount }: Props): ReactEleme
 
     return (
         <AccountFormStyled>
-        <button onClick={() => setCreatingAccount(false)}>Back</button>
+           <div className="button-wrapper">
+              <button onClick={() => setCreatingAccount(false)}>
+                <span>Back</span>
+              </button>
+           </div>
         <form onSubmit={(e) => {
             e.preventDefault() 
             createAuthor({ author, password })
@@ -32,7 +36,9 @@ export default function CreateAccount({ setCreatingAccount }: Props): ReactEleme
             <input type="text" id="author" onChange={(e) => setAuthor(e.currentTarget.value)} value={author} />
             <h4>Password</h4>
             <input type="password" id="password" onChange={(e) => setPassword(e.currentTarget.value)} value={password} />
-            <button>Create</button>
+            <div className="button-wrapper">
+              <button><span>Create</span></button>
+            </div>
         </form>
         </AccountFormStyled>
     )
