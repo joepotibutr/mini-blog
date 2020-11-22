@@ -24,8 +24,16 @@ export const AppWrapper = styled.div`
             align-items: center;
 
             .author-name {
-                cursor: pointer;
                 color: #ffffff;
+                display:flex;
+                align-items:center;
+
+                .logout-button {
+                    cursor: pointer;
+                    font-size: 16px;
+                    color: #333333;
+                    margin-left: 20px;
+                }
 
                 > h1 {
                     background: #333333;

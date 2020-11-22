@@ -101,6 +101,10 @@ function App() {
         <div className="header">
           <div className="author-name">
             <h1>{author}</h1>
+            <span onClick={() => {
+              localStorage.clear()
+              window.location.reload()
+            }} className="logout-button">Logout</span>
           </div>
           <div className="button-wrapper"><button className="create-blog-btn" onClick={() => onOpenBlogModal(ENUM_BLOG_CARD_ACTIONS.CREATE)}>WRITE A POST</button></div>
           <Modal 
@@ -129,7 +133,7 @@ function App() {
         headerText="Account" 
         isShown={!isAuthenticated} 
         hide={() => setAuthenticate(false)} 
-        modalContent={<Account setAuthenticate={() => setAuthenticate(true)} />} 
+        modalContent={<Account />} 
       />
     </AppWrapper>
   );

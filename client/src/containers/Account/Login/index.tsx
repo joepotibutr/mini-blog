@@ -3,10 +3,9 @@ import api from '../../../api'
 
 interface Props {
     setCreatingAccount:  (val: boolean) => void
-    setAuthenticate: () => void
 }
 
-export default function Login({ setCreatingAccount, setAuthenticate }: Props): ReactElement {
+export default function Login({ setCreatingAccount }: Props): ReactElement {
     const [author, setAuthor] = React.useState('')
     const [password, setPassword] = React.useState('')
 
@@ -18,7 +17,7 @@ export default function Login({ setCreatingAccount, setAuthenticate }: Props): R
           localStorage.setItem('author',user.author)
     
           alert('Login Successfully !')
-          setAuthenticate()
+          window.location.reload()
         } catch(error) {
           alert(error.response.data.errors.global)
         }
