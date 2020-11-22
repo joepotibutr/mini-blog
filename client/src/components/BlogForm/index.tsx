@@ -26,7 +26,7 @@ export default (props: Props) => {
         props.onSubmit(formValues)
     }
 
-    function onChange(e: React.ChangeEvent<HTMLInputElement>) {
+    function onChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
         const { name, value } = e.currentTarget
         setFormValues(prev => ({
             ...prev,
@@ -41,7 +41,7 @@ export default (props: Props) => {
             <h4>Status</h4>
             <input name="status" onChange={onChange} value={formValues.status} type="text" />
             <h4>Content</h4>
-            <input name="content" onChange={onChange} value={formValues.content} type="text" />
+            <textarea name="content" onChange={onChange} value={formValues.content}  />
             <h4>Category</h4>
             <input name="category" onChange={onChange} value={formValues.category} type="text" />
             <div className="submit-button">
