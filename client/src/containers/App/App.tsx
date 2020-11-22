@@ -1,6 +1,5 @@
 import React from 'react';
 import ArticleCard , { Card } from '../../components/ArticleCard'
-import FlexList from '../../components/FlexList'
 import { AppWrapper } from './styled'
 import axios from 'axios'
 import { Modal } from '../../components/Modal'
@@ -114,7 +113,7 @@ function App() {
           />
         </div>
         {blogs.length ? 
-        (<FlexList>
+        (<ul className="blog-list">
           <React.Fragment>
             {blogs.map(card => (
               <ArticleCard 
@@ -126,7 +125,7 @@ function App() {
               />
             ))}
           </React.Fragment>
-        </FlexList>)
+        </ul>)
          : <h1>There is no blog.</h1>}
       </div>
       <Modal 
