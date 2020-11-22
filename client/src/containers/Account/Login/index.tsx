@@ -1,13 +1,30 @@
 import React, { ReactElement } from 'react'
+import api from '../../../api'
 
 interface Props {
-    login: (data: {author: string, password: string}) => void
     setCreatingAccount:  (val: boolean) => void
+    setAuthenticate: () => void
 }
 
-export default function Login({ login, setCreatingAccount }: Props): ReactElement {
+export default function Login({ setCreatingAccount, setAuthenticate }: Props): ReactElement {
     const [author, setAuthor] = React.useState('')
     const [password, setPassword] = React.useState('')
+
+    async function login(data: { author: string, password: string }) {
+        try {
+          const user  =  await api.account.login(data)
+    
+          localStorage.setItem('token',user.token)
+          localStorage.setItem('author',user.author)
+    
+          alert('Login Successfully !')
+          setAuthenticate()
+        } catch(error) {
+          alert(error.response.data.errors.global)
+        }
+      }
+
+
     return (
         <div>
         <form onSubmit={(e) => {

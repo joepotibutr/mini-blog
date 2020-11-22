@@ -41,29 +41,6 @@ function App() {
 
   }, [])
 
-  async function login(data: { author: string, password: string }) {
-    try {
-      const user  =  await api.account.login(data)
-
-      localStorage.setItem('token',user.token)
-      localStorage.setItem('author',user.author)
-
-      alert('Login Successfully !')
-      setAuthenticate(true)
-    } catch(error) {
-      alert(error.response.data.errors.global)
-    }
-  }
-
-  async function createAuthor(data: { author: string, password: string }) {
-    try {
-      console.log(data)
-      await api.account.create(data)
-      alert('Create author successfully !!')
-    } catch(error) {
-      alert(error.response.data.errors.author)
-    }
-  }
 
   async function createBlog(data: IBLOG_FORM_VALUES) {
     const author = localStorage.getItem('author')
@@ -152,7 +129,7 @@ function App() {
         headerText="Account" 
         isShown={!isAuthenticated} 
         hide={() => setAuthenticate(false)} 
-        modalContent={<Account create={createAuthor} login={login} />} 
+        modalContent={<Account setAuthenticate={() => setAuthenticate(true)} />} 
       />
     </AppWrapper>
   );

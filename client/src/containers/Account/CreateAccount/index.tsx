@@ -1,11 +1,20 @@
 import React, { ReactElement } from 'react'
+import api from '../../../api'
 
 interface Props {
-    create: (data: { author: string, password: string }) => void
     setCreatingAccount:  (val: boolean) => void
 }
 
-export default function CreateAccount({ create,setCreatingAccount }: Props): ReactElement {
+export default function CreateAccount({ setCreatingAccount }: Props): ReactElement {
+
+    async function createAuthor(data: { author: string, password: string }) {
+        try {
+          await api.account.create(data)
+          alert('Create author successfully !!')
+        } catch(error) {
+          alert(error.response.data.errors.author)
+        }
+      }
 
     const [author, setAuthor] = React.useState('')
     const [password, setPassword] = React.useState('')
@@ -15,7 +24,7 @@ export default function CreateAccount({ create,setCreatingAccount }: Props): Rea
         <button onClick={() => setCreatingAccount(false)}>Back</button>
         <form onSubmit={(e) => {
             e.preventDefault() 
-            create({ author, password })
+            createAuthor({ author, password })
             setCreatingAccount(false)
         }}>
             <input id="author" onChange={(e) => setAuthor(e.currentTarget.value)} value={author} />
