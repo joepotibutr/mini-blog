@@ -15,10 +15,47 @@ The mini blog website using credentials to authorize the author.
 
 ### Installation
 
-```sh
+```bash
 $ git clone https://github.com/joepotibutr/mini-blog.git
 
 $ cd mini-blog
+```
 
+Change your path in `docker-compose.yml` file
+
+```bash
+...
+volumes:
+       - ./api:/{your path here}/api
+       - /{your path here}/api/node_modules
+...
+
+volumes:
+       - ./client:/{your path here}/client
+       - /{your path here}/client/node_modules
+
+```
+
+Change your path in `Dockerfile` in current directory as well as both `client` and `api` folder 
+`/Dockerfile`
+
+```bash
+COPY --from=ui-build /{your path here}/client/build ./client/build
+
+```
+
+`client/Dockerfile`
+```bash
+WORKDIR /{your path here}/client
+```
+
+`api/Dockerfile`
+```bash
+WORKDIR /{your path here}/api
+```
+
+Run this command below to build & compose docker container
+
+```sh
 $ docker-compose up
 ```
