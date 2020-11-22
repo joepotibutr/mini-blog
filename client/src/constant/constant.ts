@@ -5,7 +5,7 @@ export const formDefaultValue: IBLOG_FORM_VALUES = {
     category: ''
 }
 
-interface IBLOG_FORM_VALUES {
+export interface IBLOG_FORM_VALUES {
     _id?: string
     title: string,
     status: string,

@@ -1,20 +1,11 @@
 import React from 'react'
 
 import { BlogFormWrapper } from './styled'
+import { IBLOG_FORM_VALUES } from '../../constant/constant'
 
 interface Props {
-    defaultValues: {
-        title: string,
-        status: string,
-        content : string,
-        category: string
-    }
-    onSubmit: (data: {
-        title: string,
-        status: string,
-        content : string,
-        category: string
-    }) => void
+    defaultValues: IBLOG_FORM_VALUES
+    onSubmit: (data: IBLOG_FORM_VALUES) => void
 }
 
 export default (props: Props) => {

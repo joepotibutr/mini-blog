@@ -5,9 +5,9 @@ import { Modal } from '../../components/Modal'
 import BlogForm from '../../components/BlogForm'
 import Account from '../Account'
 import api from '../../api'
-import { formDefaultValue } from '../../constant/constant'
+import { formDefaultValue, IBLOG_FORM_VALUES } from '../../constant/constant'
 
-enum BLOG_CARD_ACTIONS {
+enum ENUM_BLOG_CARD_ACTIONS {
   CREATE = 'Write a new post',
   EDIT = 'Edit your post'
 }
@@ -17,7 +17,7 @@ function App() {
   const [blogs, setBlogPosts] = React.useState<Array<Card>>([])
   const [isAuthenticated, setAuthenticate] = React.useState<boolean>(true)
   const [author, setAuthor] = React.useState<null | string>(null)
-  const [modalBlog, openBlogModal] = React.useState<BLOG_CARD_ACTIONS | null>(null)
+  const [modalBlog, openBlogModal] = React.useState<ENUM_BLOG_CARD_ACTIONS | null>(null)
   const [blogDefaultValue, setBlogDefaultValue] = React.useState(formDefaultValue)
 
   React.useEffect(() => {
@@ -65,7 +65,7 @@ function App() {
     }
   }
 
-  async function createBlog(data: { title: string, content: string, category: string, status:string }) {
+  async function createBlog(data: IBLOG_FORM_VALUES) {
     const author = localStorage.getItem('author')
     try {
       const blog = author && await api.blog.createBlog(data, author)
@@ -77,7 +77,7 @@ function App() {
     }
   }
 
-   async function editBlog(data: { title: string, content: string, category: string, status:string }) {
+   async function editBlog(data: IBLOG_FORM_VALUES) {
      try {
       blogDefaultValue._id && await api.blog.editBlog(blogDefaultValue._id, data)
       onOpenBlogModal(null)
@@ -106,8 +106,8 @@ function App() {
      }
   }
 
-  function onOpenBlogModal(action: BLOG_CARD_ACTIONS | null, id?: string) {
-    if (action === BLOG_CARD_ACTIONS.EDIT) {
+  function onOpenBlogModal(action: ENUM_BLOG_CARD_ACTIONS | null, id?: string) {
+    if (action === ENUM_BLOG_CARD_ACTIONS.EDIT) {
       const currentBlog = blogs.find(blog => blog._id === id)
       currentBlog && setBlogDefaultValue(currentBlog)
     } else {
@@ -116,7 +116,7 @@ function App() {
     openBlogModal(action)
   }
 
-  const submit = modalBlog === BLOG_CARD_ACTIONS.CREATE ? createBlog : editBlog
+  const submit = modalBlog === ENUM_BLOG_CARD_ACTIONS.CREATE ? createBlog : editBlog
 
   return (
     <AppWrapper>
@@ -125,7 +125,7 @@ function App() {
           <div className="author-name">
             <h1>{author}</h1>
           </div>
-          <div className="button-wrapper"><button className="create-blog-btn" onClick={() => onOpenBlogModal(BLOG_CARD_ACTIONS.CREATE)}>WRITE A POST</button></div>
+          <div className="button-wrapper"><button className="create-blog-btn" onClick={() => onOpenBlogModal(ENUM_BLOG_CARD_ACTIONS.CREATE)}>WRITE A POST</button></div>
           <Modal 
             headerText={modalBlog || ''} 
             isShown={!!modalBlog} 
@@ -141,7 +141,7 @@ function App() {
                 actions={card.author === author} 
                 key={card._id} card={card}
                 onDeleteBlog={(id) => deleteBlog(id)}
-                onOpenBlogModal={(id) => onOpenBlogModal(BLOG_CARD_ACTIONS.EDIT, id)}
+                onOpenBlogModal={(id) => onOpenBlogModal(ENUM_BLOG_CARD_ACTIONS.EDIT, id)}
               />
             ))}
           </React.Fragment>
