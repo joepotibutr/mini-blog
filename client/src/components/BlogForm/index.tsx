@@ -1,5 +1,6 @@
 import React from 'react'
-import api from '../../api'
+
+import { BlogFormWrapper } from './styled'
 
 interface Props {
     defaultValues: {
@@ -34,7 +35,7 @@ export default (props: Props) => {
     }
 
     return (
-        <form onSubmit={submit}>
+        <BlogFormWrapper onSubmit={submit}>
             <h4>Title</h4>
             <input name="title" onChange={onChange} value={formValues.title} type="text" />
             <h4>Status</h4>
@@ -43,9 +44,9 @@ export default (props: Props) => {
             <input name="content" onChange={onChange} value={formValues.content} type="text" />
             <h4>Category</h4>
             <input name="category" onChange={onChange} value={formValues.category} type="text" />
-            <div>
-                <button>Post</button>
+            <div className="submit-button">
+                <button>Submit</button>
             </div>
-        </form>
+        </BlogFormWrapper>
     )
 }
